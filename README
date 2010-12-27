@@ -1,0 +1,6 @@
+Compile with
+$ Make
+clean with
+$ Make clean
+
+If you don't have OpenSSL installed it won't compile, the package name is openssl-dev.
