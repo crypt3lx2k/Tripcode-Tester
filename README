@@ -3,4 +3,67 @@ $ Make
 clean with
 $ Make clean
 
-If you don't have OpenSSL installed it won't compile, the package name is openssl-dev.
+If you don't have OpenSSL-dev installed it won't compile, the package name should be libssl-dev.
+
+After compiling it you can move it to /usr/bin and then invoke it with
+
+$ trip
+
+Usage examples:
+
+trip will check the command line arguments for tripcodes to run, if there are no arguments it will prompt the user for input.
+
+$ trip
+>>> a  
+!ZnBI2EKkq.
+>>> tea 
+!WokonZwxw2
+>>> trip
+!hEpdoZ.tHU
+>>> 
+
+You exit the program in this mode with C(trl)-d.
+You may also pass tripcodes on the command line,
+
+$ trip a tea trip
+#a => !ZnBI2EKkq.
+#tea => !WokonZwxw2
+#trip => !hEpdoZ.tHU
+
+You may also pipe a file to the program through stdin, first we create a test file
+
+$ cat > test
+a
+tea
+trip
+$ cat test | trip
+#a => !ZnBI2EKkq.
+#tea => !WokonZwxw2
+#trip => !hEpdoZ.tHU
+
+You may also pipe the output from trip to another program like GNU/grep so that you can run them versus a wordlist.
+
+$ cat /usr/share/dict/words | trip | grep -E '(ZnBI2EKkq.|WokonZwxw2|hEpdoZ.tHU)'
+#a => !ZnBI2EKkq.
+#tea => !WokonZwxw2
+#trip => !hEpdoZ.tHU
+trips: 100052
+time:  2.184642 seconds
+ratio: 45797.892744 trips/sec
+
+You may also pipe the output to a file so you may precompute a list of tripcodes
+
+$ cat /usr/share/dict/words | trip > wordlist
+trips: 100052
+time:  2.274778 seconds
+ratio: 43983.193085 trips/sec
+$ time cat wordlist | grep -E '(ZnBI2EKkq.|WokonZwxw2|hEpdoZ.tHU)'
+#a => !ZnBI2EKkq.
+#tea => !WokonZwxw2
+#trip => !hEpdoZ.tHU
+
+real  0m0.103s
+user  0m0.092s
+sys   0m0.012s
+
+At less than 50k tripcodes per second on one process at an Intel Atom 1.6GHz this implementation of tripcodes is obviously much too slow than for anything but small dictionaries, I plan on implementing a bitslice version which will speed up the program to about 500k tripcodes per second on the same hardware as mentioned above.

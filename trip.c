@@ -233,7 +233,7 @@ int main(int argc, char **argv) {
   prompt_file = file ? stderr : stdout;
 
   if (file)
-    output_fmt = "%s => %s\n";
+    output_fmt = "#%s => !%s\n";
   else if (!shell || argc > 1)
     output_fmt = "#\033[01;32m%s\033[0m => !\033[01;31m%s\033[0m\n";
   else
