@@ -29,7 +29,7 @@
 #include <sys/time.h>
 #include <openssl/des.h>
 
-#define ARRSIZE 0x10
+#define ARRSIZE 0x14
 
 const char * restrict table =
   "................................"
