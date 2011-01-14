@@ -1,9 +1,14 @@
 CC	= gcc
 CFLAGS	= -Wall -Wextra -pedantic -std=c99 -lssl -O3
 
-all: trip
+trip	:	trip.c
+	$(CC) $(CFLAGS) trip.c -o trip
 
-clean:
+clean	:
 	rm -f trip
 
-.PHONY: clean
+install	:	trip
+	cp trip /usr/bin/
+
+uninstall:
+	rm -f /usr/bin/trip

@@ -2,10 +2,14 @@ Compile with
 $ make
 clean with
 $ make clean
+install with
+$ sudo make install
+uninstall with
+$ sudo make uninstall
 
 If you don't have OpenSSL development files installed it won't compile, the package name should be libssl-dev.
 
-After compiling it you can move it to /usr/bin and then invoke it with
+After installing you may invoke the program with
 
 $ trip
 
