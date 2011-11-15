@@ -1,8 +1,10 @@
-CC	= gcc
-CFLAGS	= -Wall -Wextra -pedantic -std=c99 -lssl -O3
+CC     = gcc
+CFLAGS = -O2 -fomit-frame-pointer -funroll-loops -fstrict-aliasing
+WFLAGS = -Wall -Wextra -pedantic -std=c99
+LFLAGS = -lcrypto
 
 trip	:	trip.c
-	$(CC) $(CFLAGS) trip.c -o trip
+	$(CC) $(CFLAGS) $(WFLAGS) $(LFLAGS) trip.c -o trip
 
 clean	:
 	rm -f trip

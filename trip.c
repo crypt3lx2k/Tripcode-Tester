@@ -57,10 +57,9 @@ htmlify(dest, src)
   char *sp;
   size_t len;
 
-#define strcatinc(s)				\
+#define STRCATINC(dest, s, len)			\
   memcpy(dest + len, s, sizeof(s) - 1);		\
-  len += sizeof(s) - 1;				\
-  break;
+  len += sizeof(s) - 1
 
   /*
    * These are supposed to be HTML names,
@@ -70,20 +69,24 @@ htmlify(dest, src)
   for (len = 0, sp = src; len < 8 && *sp; sp += 1) {
     switch (*sp) {
     case '\"':
-      strcatinc("&quot;");
+      STRCATINC(dest, "&quot;", len);
+      break;
     case '&':
-      strcatinc("&amp;");
+      STRCATINC(dest, "&amp;", len);
+      break;
     case '<':
-      strcatinc("&lt;");
+      STRCATINC(dest, "&lt;", len);
+      break;
     case '>':
-      strcatinc("&gt;");
+      STRCATINC(dest, "&gt;", len);
+      break;
     default:
       dest[len++] = *sp;
       break;
     }
   }
 
-#undef strcatinc
+#undef STRCATINC
 
   return len;
 }
@@ -208,16 +211,24 @@ void report(void) {
   end_secs = timebuf.tv_sec;
   end_msecs = timebuf.tv_usec;
 
-  unsigned long seconds  =  end_secs - start_secs;
+  unsigned long seconds = end_secs - start_secs;
+
+  if (end_msecs < start_msecs) {
+    seconds -= 1;
+    end_msecs += 1000000;
+  }
+
   unsigned long mseconds = end_msecs - start_msecs;
+
+  double time = seconds + 1e-6 * mseconds;
 
   fprintf(stderr,
 	  "trips: %llu\n"
-	  "time:  %lu.%06lu seconds\n"
-	  "ratio: %lf trips/sec\n",
-	  trips, seconds, mseconds, 
-	  (double) trips / (seconds + (1e-6 * mseconds)));
-  
+	  "time:  %f seconds\n"
+	  "ratio: %f trips/sec\n",
+	  trips, time, 
+	  (double) trips/time);
+
   return;
 }
 
