@@ -1,0 +1,1 @@
+To install TripTester you should run ./configure and then run make && make install.

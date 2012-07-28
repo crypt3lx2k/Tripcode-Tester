@@ -1,13 +1,20 @@
-Compile with
-$ make
-clean with
-$ make clean
-install with
-$ sudo make install
-uninstall with
-$ sudo make uninstall
+TripTester is an MIT licensed tripcode tester that works on mostly POSIX compliant systems.
+TripTester's goal is to be compliant with 4chan, this includes corner cases like HTML entities and SJIS translation.
 
-If you don't have OpenSSL development files installed it won't compile, the package name should be libssl-dev.
+Compile with
+$ ./configure && make && make install
+
+If you want to install at a specific location then you utilize the --prefix with configure
+$ ./configure --prefix=my/special/location && make && make install
+
+For the configure script to work properly you need to have pkg-config installed.
+The pkg-config program is used to locate the libraries and header files for OpenSSL.
+
+On Ubuntu you may install the OpenSSL development files by installing the package libssl-dev.
+$ sudo apt-get install libssl-dev
+
+On Fedora you may install the OpenSSL development files by installing the package openssl-devel.
+$ su -c 'yum install openssl-devel'
 
 After installing you may invoke the program with
 
@@ -51,23 +58,3 @@ $ cat /usr/share/dict/words | trip | grep -E '(ZnBI2EKkq.|WokonZwxw2|hEpdoZ.tHU)
 #a => !ZnBI2EKkq.
 #tea => !WokonZwxw2
 #trip => !hEpdoZ.tHU
-trips: 100052
-time:  2.184642 seconds
-ratio: 45797.892744 trips/sec
-
-You may also pipe the output to a file so you may precompute a list of tripcodes
-
-$ cat /usr/share/dict/words | trip > wordlist
-trips: 100052
-time:  2.274778 seconds
-ratio: 43983.193085 trips/sec
-$ time cat wordlist | grep -E '(ZnBI2EKkq.|WokonZwxw2|hEpdoZ.tHU)'
-#a => !ZnBI2EKkq.
-#tea => !WokonZwxw2
-#trip => !hEpdoZ.tHU
-
-real  0m0.103s
-user  0m0.092s
-sys   0m0.012s
-
-At less than 50k tripcodes per second on one process at an Intel Atom 1.6GHz this implementation of tripcodes is obviously much too slow than for anything but small dictionaries, I plan on implementing a bitslice version which will speed up the program to about 500k tripcodes per second on the same hardware.
