@@ -48,11 +48,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_trip_OBJECTS = trip-main.$(OBJEXT) trip-tripcode.$(OBJEXT)
+am_trip_OBJECTS = main.$(OBJEXT) tripcode.$(OBJEXT)
 trip_OBJECTS = $(am_trip_OBJECTS)
-trip_DEPENDENCIES =
-trip_LINK = $(CCLD) $(trip_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
-	-o $@
+trip_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -169,8 +167,6 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = gnu
 trip_SOURCES = src/main.c src/tripcode.c
-trip_LDADD = @SSL_LIBS@
-trip_CFLAGS = @SSL_CFLAGS@
 all: all-am
 
 .SUFFIXES:
@@ -248,7 +244,7 @@ clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 trip$(EXEEXT): $(trip_OBJECTS) $(trip_DEPENDENCIES) 
 	@rm -f trip$(EXEEXT)
-	$(trip_LINK) $(trip_OBJECTS) $(trip_LDADD) $(LIBS)
+	$(LINK) $(trip_OBJECTS) $(trip_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -256,8 +252,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trip-main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trip-tripcode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tripcode.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -273,33 +269,33 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
-trip-main.o: src/main.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(trip_CFLAGS) $(CFLAGS) -MT trip-main.o -MD -MP -MF $(DEPDIR)/trip-main.Tpo -c -o trip-main.o `test -f 'src/main.c' || echo '$(srcdir)/'`src/main.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/trip-main.Tpo $(DEPDIR)/trip-main.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/main.c' object='trip-main.o' libtool=no @AMDEPBACKSLASH@
+main.o: src/main.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT main.o -MD -MP -MF $(DEPDIR)/main.Tpo -c -o main.o `test -f 'src/main.c' || echo '$(srcdir)/'`src/main.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/main.Tpo $(DEPDIR)/main.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/main.c' object='main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(trip_CFLAGS) $(CFLAGS) -c -o trip-main.o `test -f 'src/main.c' || echo '$(srcdir)/'`src/main.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o main.o `test -f 'src/main.c' || echo '$(srcdir)/'`src/main.c
 
-trip-main.obj: src/main.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(trip_CFLAGS) $(CFLAGS) -MT trip-main.obj -MD -MP -MF $(DEPDIR)/trip-main.Tpo -c -o trip-main.obj `if test -f 'src/main.c'; then $(CYGPATH_W) 'src/main.c'; else $(CYGPATH_W) '$(srcdir)/src/main.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/trip-main.Tpo $(DEPDIR)/trip-main.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/main.c' object='trip-main.obj' libtool=no @AMDEPBACKSLASH@
+main.obj: src/main.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT main.obj -MD -MP -MF $(DEPDIR)/main.Tpo -c -o main.obj `if test -f 'src/main.c'; then $(CYGPATH_W) 'src/main.c'; else $(CYGPATH_W) '$(srcdir)/src/main.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/main.Tpo $(DEPDIR)/main.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/main.c' object='main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(trip_CFLAGS) $(CFLAGS) -c -o trip-main.obj `if test -f 'src/main.c'; then $(CYGPATH_W) 'src/main.c'; else $(CYGPATH_W) '$(srcdir)/src/main.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o main.obj `if test -f 'src/main.c'; then $(CYGPATH_W) 'src/main.c'; else $(CYGPATH_W) '$(srcdir)/src/main.c'; fi`
 
-trip-tripcode.o: src/tripcode.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(trip_CFLAGS) $(CFLAGS) -MT trip-tripcode.o -MD -MP -MF $(DEPDIR)/trip-tripcode.Tpo -c -o trip-tripcode.o `test -f 'src/tripcode.c' || echo '$(srcdir)/'`src/tripcode.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/trip-tripcode.Tpo $(DEPDIR)/trip-tripcode.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/tripcode.c' object='trip-tripcode.o' libtool=no @AMDEPBACKSLASH@
+tripcode.o: src/tripcode.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tripcode.o -MD -MP -MF $(DEPDIR)/tripcode.Tpo -c -o tripcode.o `test -f 'src/tripcode.c' || echo '$(srcdir)/'`src/tripcode.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/tripcode.Tpo $(DEPDIR)/tripcode.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/tripcode.c' object='tripcode.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(trip_CFLAGS) $(CFLAGS) -c -o trip-tripcode.o `test -f 'src/tripcode.c' || echo '$(srcdir)/'`src/tripcode.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tripcode.o `test -f 'src/tripcode.c' || echo '$(srcdir)/'`src/tripcode.c
 
-trip-tripcode.obj: src/tripcode.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(trip_CFLAGS) $(CFLAGS) -MT trip-tripcode.obj -MD -MP -MF $(DEPDIR)/trip-tripcode.Tpo -c -o trip-tripcode.obj `if test -f 'src/tripcode.c'; then $(CYGPATH_W) 'src/tripcode.c'; else $(CYGPATH_W) '$(srcdir)/src/tripcode.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/trip-tripcode.Tpo $(DEPDIR)/trip-tripcode.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/tripcode.c' object='trip-tripcode.obj' libtool=no @AMDEPBACKSLASH@
+tripcode.obj: src/tripcode.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tripcode.obj -MD -MP -MF $(DEPDIR)/tripcode.Tpo -c -o tripcode.obj `if test -f 'src/tripcode.c'; then $(CYGPATH_W) 'src/tripcode.c'; else $(CYGPATH_W) '$(srcdir)/src/tripcode.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/tripcode.Tpo $(DEPDIR)/tripcode.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='src/tripcode.c' object='tripcode.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(trip_CFLAGS) $(CFLAGS) -c -o trip-tripcode.obj `if test -f 'src/tripcode.c'; then $(CYGPATH_W) 'src/tripcode.c'; else $(CYGPATH_W) '$(srcdir)/src/tripcode.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tripcode.obj `if test -f 'src/tripcode.c'; then $(CYGPATH_W) 'src/tripcode.c'; else $(CYGPATH_W) '$(srcdir)/src/tripcode.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

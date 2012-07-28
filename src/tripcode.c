@@ -2,7 +2,13 @@
 #include <iconv.h>
 #include <string.h>
 
-#include <openssl/des.h>
+#if HAVE_OPENSSL_DES_H
+# include <openssl/des.h>
+#else
+extern char * DES_fcrypt (const char * buf,
+			  const char * salt,
+			  char * ret);
+#endif
 
 #include "tripcode.h"
 

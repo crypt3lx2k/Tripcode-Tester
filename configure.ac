@@ -11,11 +11,16 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 
 # Checks for libraries.
-PKG_CHECK_MODULES([SSL], [openssl],, AC_MSG_ERROR(openssl not found))
+AC_SEARCH_LIBS([DES_fcrypt], [crypto ssl])
+
+if test "$ac_cv_search_DES_fcrypt" = "no" ; then
+   PKG_CHECK_MODULES([SSL], [openssl],, [AC_MSG_ERROR([can't find openssl installation])])
+   LIBS="$SSL_LIBS $LIBS"
+fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([errno.h iconv.h stdio.h stdlib.h string.h unistd.h],, AC_MSG_ERROR(POSIX standard headers not found))
-AC_CHECK_HEADERS([openssl/des.h],, AC_MSG_ERROR(Can't locate OpenSSL development files for des openssl/des.h))
+AC_CHECK_HEADERS([errno.h iconv.h stdio.h stdlib.h string.h unistd.h],, [AC_MSG_ERROR([POSIX standard headers not found])])
+AC_CHECK_HEADERS([openssl/des.h],, [AC_MSG_WARN([openssl/des.h not found, will attempt to create valid prototype])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
