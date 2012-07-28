@@ -2,6 +2,7 @@
 #define TRIPCODE_H
 
 #include <iconv.h> /* iconv_t */
+#include <stddef.h> /* size_t */
 
 /**
  * transform_html
