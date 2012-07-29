@@ -16,6 +16,7 @@ AC_SEARCH_LIBS([DES_fcrypt], [crypto ssl])
 if test "$ac_cv_search_DES_fcrypt" = "no" ; then
    PKG_CHECK_MODULES([SSL], [openssl],, [AC_MSG_ERROR([can't find openssl installation])])
    LIBS="$SSL_LIBS $LIBS"
+   AM_CFLAGS="$SSL_CFLAGS $AM_CFLAGS"
 fi
 
 # Checks for header files.

@@ -3982,6 +3982,7 @@ $as_echo "yes" >&6; }
 
 fi
    LIBS="$SSL_LIBS $LIBS"
+   AM_CFLAGS="$SSL_CFLAGS $AM_CFLAGS"
 fi
 
 # Checks for header files.
