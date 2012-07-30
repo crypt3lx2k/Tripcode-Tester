@@ -7,9 +7,6 @@ $ ./configure && make && make install
 If you want to install at a specific location then you utilize the --prefix with configure
 $ ./configure --prefix=my/special/location && make && make install
 
-For the configure script to work properly you need to have pkg-config installed.
-The pkg-config program is used to locate the libraries and header files for OpenSSL.
-
 On Ubuntu you may install the OpenSSL development files by installing the package libssl-dev.
 $ sudo apt-get install libssl-dev
 
