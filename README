@@ -1,6 +1,10 @@
 TripTester is an MIT licensed tripcode tester that works on mostly POSIX compliant systems.
 TripTester's goal is to be compliant with 4chan, this includes corner cases like HTML entities and SJIS translation.
 
+If you obtained the source directly from github and not through a tarball then there is no configure script in this directory.
+You may create a configure script if you have the GNU autotools installed by running the command
+$ autoreconf -fi
+
 Compile with
 $ ./configure && make && make install
 
