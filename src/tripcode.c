@@ -5,10 +5,12 @@
 #if HAVE_OPENSSL_DES_H
 # include <openssl/des.h>
 #else
+/* try to declare a valid prototype for the
+   function and then keep fingers crossed */
 extern char * DES_fcrypt (const char * buf,
 			  const char * salt,
 			  char * ret);
-#endif
+#endif /* HAVE_OPENSSL_DES_H */
 
 #include "tripcode.h"
 
@@ -26,6 +28,8 @@ size_t transform_html (const char * src, char * dest) {
   const char * s;
   size_t len;
 
+  /* note that this macro mutates
+     both dest __and__ len. */
 #define STRCATINC(dest, s, len)			\
   do {						\
     memcpy(dest + len, s, sizeof(s) - 1);	\

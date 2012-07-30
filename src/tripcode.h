@@ -11,7 +11,7 @@
  * corresponding HTML entities and writes the result to the
  * output buffer.
  *
- * At most will 8 characters be read from the input string.
+ * At most 8 characters will be read from the input string.
  * The output buffer must be able to hold at least 15 chars.
  *
  * This function returns the number of characters that were

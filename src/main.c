@@ -6,18 +6,19 @@
 
 #include "tripcode.h"
 
-#define EXIT_ON_ERROR(function)			\
-  do {						\
-    perror(function);				\
-    exit(EXIT_FAILURE);				\
-  } while (0)
+#include "main.h" /* PRINT_ENO_AND_EXIT */
 
+/* global conversion descriptor, if we are to add threading
+   later we need to make this local to the threads.*/
 static iconv_t cd;
 
 static int input_is_shell;
 static int output_is_file;
 
+/* which stream we print the prompt to */
 static FILE * prompt_file;
+
+/* the format that is used for the tripcodes */
 static const char * output_fmt;
 
 static void tripcode_driver (iconv_t cd,
@@ -29,7 +30,7 @@ static void tripcode_driver (iconv_t cd,
   len = transform_sjis(cd, input, len, sjis, 32);
 
   if (len == (size_t) -1)
-    EXIT_ON_ERROR("transform_sjis");
+    PRINT_ENO_AND_EXIT("transform_sjis");
 
   len = transform_html(sjis, html);
 
@@ -48,8 +49,10 @@ static void args_loop (int argc, char * argv[]) {
 }
 
 static char * prompt (char * s, int size, FILE * stream) {
-  if (input_is_shell)
-    fprintf(prompt_file, "\e[02;34m>>>\e[0m ");
+  if (input_is_shell) {
+    fputs("\e[02;34m>>>\e[0m ", prompt_file);
+    fflush(prompt_file);
+  }
 
   return fgets(s, size, stream);
 }
@@ -109,7 +112,7 @@ int main (int argc, char * argv[]) {
   cd = iconv_open("SJIS//IGNORE", "UTF-8");
 
   if (cd == (iconv_t) -1)
-    EXIT_ON_ERROR("iconv_open");
+    PRINT_ENO_AND_EXIT("iconv_open");
 
   if (argc > 1)
     args_loop(argc, argv);
@@ -119,7 +122,7 @@ int main (int argc, char * argv[]) {
   error = iconv_close(cd);
 
   if (error == -1)
-    EXIT_ON_ERROR("iconv_close");
+    PRINT_ENO_AND_EXIT("iconv_close");
 
   exit(EXIT_SUCCESS);
 }

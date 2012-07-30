@@ -1,7 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.68])
 AC_INIT([TripTester], [1.0.0], [trulses@gmail.com],, [https://github.com/crypt3lx2k/TripTester])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE
