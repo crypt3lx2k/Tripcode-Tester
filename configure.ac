@@ -19,7 +19,7 @@ if test "$ac_cv_search_DES_fcrypt" = "no" ; then
 fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([errno.h iconv.h stdio.h stdlib.h string.h unistd.h],, [AC_MSG_ERROR([POSIX standard headers not found])])
+AC_CHECK_HEADERS([errno.h iconv.h stddef.h stdio.h stdlib.h string.h unistd.h],, [AC_MSG_ERROR([POSIX standard headers not found])])
 AC_CHECK_HEADERS([openssl/des.h],, [AC_MSG_WARN([openssl/des.h not found, will attempt to create valid prototype])])
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -27,4 +27,5 @@ AC_TYPE_SIZE_T
 
 # Checks for library functions.
 
-AC_OUTPUT(Makefile)
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
