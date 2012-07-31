@@ -86,7 +86,7 @@ static void stdin_loop (void) {
        buffer, only 8 characters will ultimately be used
        anyway. We might collapse 3 chars of UTF-8 into a
        single sjis character so here is the worst case. */
-#define MAX_LENGTH (8*3+1)
+#define MAX_LENGTH (8*3)
     if (len > MAX_LENGTH) {
       io_buffer[MAX_LENGTH] = '\0';
       len = MAX_LENGTH;
