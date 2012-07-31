@@ -24,10 +24,11 @@ static const char * output_fmt;
 static void tripcode_driver (iconv_t cd,
 			     char * input, size_t len,
 			     char * output) {
-  char sjis[32] = {0};
-  char html[32] = {0};
+#define BUFFER_LENGTH 32
+  char sjis[BUFFER_LENGTH] = {0};
+  char html[BUFFER_LENGTH] = {0};
 
-  len = transform_sjis(cd, input, len, sjis, 32);
+  len = transform_sjis(cd, input, len, sjis, BUFFER_LENGTH);
 
   if (len == (size_t) -1)
     PRINT_ENO_AND_EXIT("transform_sjis");
@@ -35,6 +36,7 @@ static void tripcode_driver (iconv_t cd,
   len = transform_html(sjis, html);
 
   trip(html, len, output);
+#undef BUFFER_LENGTH
 }
 
 static void args_loop (int argc, char * argv[]) {
@@ -79,6 +81,17 @@ static void stdin_loop (void) {
     /* ignore lines that are only newlines */
     if (len == 0)
       continue;
+
+    /* cut the string short so that it will fit into the sjis
+       buffer, only 8 characters will ultimately be used
+       anyway. We might collapse 3 chars of UTF-8 into a
+       single sjis character so here is the worst case. */
+#define MAX_LENGTH (8*3+1)
+    if (len > MAX_LENGTH) {
+      io_buffer[MAX_LENGTH] = '\0';
+      len = MAX_LENGTH;
+    }
+#undef MAX_LENGTH
 
     tripcode_driver(cd, io_buffer, len, tripcode);
 
