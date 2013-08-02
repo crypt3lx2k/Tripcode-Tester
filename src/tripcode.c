@@ -1,3 +1,21 @@
+/*
+ * Tripcode Tester - A program for testing tripcodes.
+ * Copyright (C) 2010-2013 Truls Edvard Stokke
+ *
+ * Tripcode Tester is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tripcode Tester is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Tripcode Tester.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <errno.h>
 #include <iconv.h>
 #include <string.h>
@@ -24,7 +42,7 @@ static char salt_table [] =
   "................................"
   "................................";
 
-size_t transform_html (const char * src, char * dest) {
+size_t tripcode_html (const char * src, char * dest) {
   const char * s;
   size_t len;
 
@@ -67,22 +85,27 @@ size_t transform_html (const char * src, char * dest) {
   return len;
 }
 
-size_t transform_sjis (iconv_t cd,
-		       char * s,    size_t len,
-		       char * dest, size_t size) {
+size_t tripcode_sjis (iconv_t cd,
+		      char * s,    size_t len,
+		      char * dest, size_t size) {
   size_t e;
   size_t l = size;
 
   errno = 0;
   e = iconv(cd, &s, &len, &dest, &l);
 
-  if (errno || e == (size_t) -1)
-    return (size_t) -1;
+  if (errno && e == (size_t) -1) {
+    /* */
 
+    if (errno != EILSEQ)
+      return (size_t) -1;
+  }
+
+  dest[0] = '\0';
   return size - l;
 }
 
-void trip (const char * s, size_t len, char * dest) {
+char * tripcode_crypt (const char * s, size_t len, char * dest) {
   char salt[] = "HH";
 
   switch (len) {
@@ -97,4 +120,23 @@ void trip (const char * s, size_t len, char * dest) {
   }
 
   (void) DES_fcrypt(s, salt, dest);
+
+  return dest + 3;
+}
+
+char * tripcode (iconv_t cd, char * input, size_t len, char * output) {
+#define BUFFER_LENGTH 32
+  char html[BUFFER_LENGTH] = {0};
+  char sjis[BUFFER_LENGTH] = {0};
+
+  len = tripcode_sjis(cd,
+		      input, len,
+		      sjis, BUFFER_LENGTH);
+
+  if (len == (size_t) -1)
+    return NULL;
+
+  len = tripcode_html(sjis, html);
+  return tripcode_crypt(sjis, len, output);
+#undef BUFFER_LENGTH
 }

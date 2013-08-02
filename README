@@ -1,4 +1,4 @@
-TripTester is an MIT licensed tripcode tester that works on mostly POSIX compliant systems. TripTester's goal is to be compliant with 4chan, this includes corner cases like HTML entities and SJIS translation. TripTester is not a tripcode cracking utility, it is also not a tripcode generating utility even though it may be used as such.
+Tripcode Tester is an MIT licensed tripcode tester that works on mostly POSIX compliant systems. Tripcode Tester's goal is to be compliant with 4chan, this includes corner cases like HTML entities and SJIS translation. Tripcode Tester is not a tripcode cracking utility, it is also not a tripcode generating utility even though it may be used as such.
 
 If you obtained the source directly from github and not through a tarball then there is no configure script in this directory. You may create a configure script if you have the GNU autotools installed by running the command
 $ autoreconf -fi
@@ -16,12 +16,12 @@ On Fedora you may install the OpenSSL development files by installing the packag
 $ su -c 'yum install openssl-devel'
 
 After installing you may invoke the program with
-$ trip
+$ tripcode
 
 Usage examples:
 
-trip will check the command line arguments for tripcodes to run, if there are no arguments it will prompt the user for input.
-$ trip
+tripcode will check the command line arguments for tripcodes to run, if there are no arguments it will prompt the user for input.
+$ tripcode
 >>> a
 !ZnBI2EKkq.
 >>> tea
@@ -31,7 +31,7 @@ $ trip
 >>>
 
 You exit the program in this mode by sending EOF (default on many new GNU/Linux systems C(trl)-d). You may also pass tripcodes on the command line,
-$ trip a tea trip
+$ tripcode a tea trip
 #a => !ZnBI2EKkq.
 #tea => !WokonZwxw2
 #trip => !hEpdoZ.tHU
@@ -41,21 +41,23 @@ $ cat > test
 a
 tea
 trip
-$ trip < test
+
+Then we pipe the test file to the program
+$ tripcode < test
 #a => !ZnBI2EKkq.
 #tea => !WokonZwxw2
 #trip => !hEpdoZ.tHU
 
-You may also pipe the output from trip to another program like GNU/grep so that you may run tripcodes versus a wordlist.
-$ trip < /usr/share/dict/words | grep -E '(ZnBI2EKkq.|WokonZwxw2|hEpdoZ.tHU)'
+You may also pipe the output from tripcode to another program like GNU/grep so that you may run tripcodes versus a wordlist.
+$ tripcode < /usr/share/dict/words | grep -E '(ZnBI2EKkq.|WokonZwxw2|hEpdoZ.tHU)'
 #a => !ZnBI2EKkq.
 #tea => !WokonZwxw2
 #trip => !hEpdoZ.tHU
 
 It is also possible to generate random tripcodes using the urandom device on most GNU/Linux distribution
-$ tr -dc 'A-Za-z0-9' < /dev/urandom | fold -w 8 | trip
+$ tr -dc 'A-Za-z0-9' < /dev/urandom | fold -w 8 | tripcode
 
 You may then screen these tripcodes for a specific phrase
-$ tr -dc 'A-Za-z0-9' < /dev/urandom | fold -w 8 | trip | egrep -i "!.*?trip"
+$ tr -dc 'A-Za-z0-9' < /dev/urandom | fold -w 8 | tripcode | egrep -i "!.*?trip"
 
 Note that this will be very slow and is not feasible for tripcode generation.
