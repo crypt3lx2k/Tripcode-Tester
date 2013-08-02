@@ -24,6 +24,7 @@ if test "$ac_cv_search_DES_fcrypt" = "no" ; then
 fi
 
 dnl keep this ordering between curses and readline
+AC_SEARCH_LIBS([iconv_open], [iconv], [], [AC_MSG_ERROR([no iconv library found, will be unable to compile])])
 AC_SEARCH_LIBS([tputs], [curses ncurses], [AC_DEFINE([HAVE_LIB_CURSES])], [AC_MSG_WARN([curses not found, colored output will not be available])])
 AC_SEARCH_LIBS([readline], [readline], [AC_DEFINE([HAVE_LIB_READLINE])], [AC_MSG_WARN([readline not found, line editing will not be available])])
 
