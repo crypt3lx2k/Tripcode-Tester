@@ -1,7 +1,9 @@
-Tripcode Tester is an MIT licensed tripcode tester that works on mostly POSIX compliant systems. Tripcode Tester's goal is to be compliant with 4chan, this includes corner cases like HTML entities and SJIS translation. Tripcode Tester is not a tripcode cracking utility, it is also not a tripcode generating utility even though it may be used as such.
+Tripcode Tester is A GPLv3 licensed tripcode tester that works on mostly POSIX compliant systems. Tripcode Tester's goal is to be compliant with 4chan, this includes corner cases like HTML entities and SJIS translation. Tripcode Tester is not a tripcode cracking utility, it is also not a tripcode generating utility even though it may be used as such.
 
 If you obtained the source directly from github and not through a tarball then there is no configure script in this directory. You may create a configure script if you have the GNU autotools installed by running the command
 $ autoreconf -fi
+
+You may have to install pkg-config and autoconf-archive for this operation to succeed.
 
 Compile with
 $ ./configure && make && make install
@@ -14,6 +16,8 @@ $ sudo apt-get install libssl-dev
 
 On Fedora you may install the OpenSSL development files by installing the package openssl-devel.
 $ su -c 'yum install openssl-devel'
+
+Tripcode Tester also takes advantage of any ncurses or readline installation if they are available at compile time.
 
 After installing you may invoke the program with
 $ tripcode
@@ -54,7 +58,7 @@ $ tripcode < /usr/share/dict/words | grep -E '(ZnBI2EKkq.|WokonZwxw2|hEpdoZ.tHU)
 #tea => !WokonZwxw2
 #trip => !hEpdoZ.tHU
 
-It is also possible to generate random tripcodes using the urandom device on most GNU/Linux distribution
+It is also possible to generate random tripcodes using the urandom device on most GNU/Linux distributions
 $ tr -dc 'A-Za-z0-9' < /dev/urandom | fold -w 8 | tripcode
 
 You may then screen these tripcodes for a specific phrase
