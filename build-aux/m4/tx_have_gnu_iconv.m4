@@ -53,7 +53,7 @@ AC_DEFUN([TX_HAVE_GNU_ICONV], [
       )],
       [tx_cv_have_gnu_iconv="no"]
     )
-    AC_LANG_POP([C])    
+    AC_LANG_POP([C])
     AC_MSG_CHECKING([for gnu style iconv])
   ])
 

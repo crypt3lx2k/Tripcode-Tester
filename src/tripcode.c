@@ -95,8 +95,9 @@ size_t tripcode_sjis (iconv_t cd,
   e = iconv(cd, &s, &len, &dest, &l);
 
   if (errno && e == (size_t) -1) {
-    /* */
-
+    /* ignoring invalid multibyte sequences is
+       congruent to the way tripcodes are actually
+       handled. */
     if (errno != EILSEQ)
       return (size_t) -1;
   }
