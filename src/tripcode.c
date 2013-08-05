@@ -138,6 +138,12 @@ char * tripcode (iconv_t cd, char * input, size_t len, char * output) {
     return NULL;
 
   len = tripcode_html(sjis, html);
-  return tripcode_crypt(sjis, len, output);
+
+  if (len == 0) {
+    errno = EINVAL;
+    return NULL;
+  }
+
+  return tripcode_crypt(html, len, output);
 #undef BUFFER_LENGTH
 }
